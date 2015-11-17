@@ -11,4 +11,4 @@ server: $(SERVER_OBJS)
 	@g++ -Wall -o server -g $(SERVER_OBJS)
 
 client: $(CLIENT_OBJS)
-	@g++ -Wall -o client -g $(CLIENT_OBJS)
+	@g++ -Wall -o client -g $(CLIENT_OBJS) -lpthread

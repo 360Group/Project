@@ -1,7 +1,15 @@
 #include <iostream>
+#include "client.hpp"
+#include "client_network.hpp"
 
 using namespace std;
 
 int main(int argc, char *argv[]){
-    cout << argc << endl;
+
+    string address = argv[1];
+    string port = argv[2];
+    Client *client = new Client();
+    ClientNetwork *network = new ClientNetwork(client, address, port);
+    network->SendMove(2000);
+    network->Close();
 }
