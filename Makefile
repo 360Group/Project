@@ -2,7 +2,7 @@ CC=clang
 CFLAGS=-Wall -g
 
 SERVER_OBJS = server.o
-CLIENT_OBJS = client.o
+CLIENT_OBJS = client_main.o client.o client_network.o TCPClientUtility.o
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c -o $@ $?
