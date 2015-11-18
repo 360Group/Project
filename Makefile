@@ -12,3 +12,8 @@ server: $(SERVER_OBJS)
 
 client: $(CLIENT_OBJS)
 	@g++ -Wall -o client -g $(CLIENT_OBJS) -lpthread
+	
+clean:
+	@rm -f *.o
+	@rm -f client
+	@rm -f server
