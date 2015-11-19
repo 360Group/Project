@@ -19,13 +19,12 @@ class ClientNetwork {
         ClientNetwork(Client *client, string address, string port);
         void Close();
         void SendMove(int col);
-        
+
     private:
         Client *client;
         int sockID;
-        char board[7][6];
         pthread_t recvThread;
-        
+
         static void *RecvHandler(void *arg);
 };
 #endif
