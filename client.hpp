@@ -10,13 +10,14 @@ class Client {
 public:
     Client();
     ~Client();
-    void SetBoard(char board[6][7]);
     void BeginGame();
-    void DrawToScreen();
+    void DrawToScreen(char board[6][7]);
     void Error(string errorMsg);
+    void InitializeScreen();
+    void SetMoveEvent(void (*event)(int));
 
 private:
-    char board[6][7];
     char currentColSel;
+    void (*event)(int);
 };
 #endif
