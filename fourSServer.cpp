@@ -2,10 +2,14 @@
 command line argument: ./serv [port]*/
 
 #include <iostream>
+#include <sys/types.h>
 #include <sys/socket.h>
-#include<netinet/in.h>
-#include<arpa/inet.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/stat.h>
 #include <stdlib.h>
+#include <cstring>
+#include <unistd.h>
 
 using namespace std;
 
@@ -30,9 +34,32 @@ int main(int argc, char* argv[]){
 
 	listen(sock, 256);
 
-	int client_sock, length;
+	int client_sock;
+  socklen_t length;
 
 	struct sockaddr_in peer;
 
-	client_sock = accept(sock, (struct sockaddr*) &peer, &length);
+	if((client_sock = accept(sock, (struct sockaddr*) &peer, &length)) < 0){
+    cerr<< "bad accept()" << endl;
+    return -1;
+  }
+
+  char buffer[99999];
+  int recvMsg;
+  memset(buffer, 0, 99999);
+  recvMsg = recv(client_sock, buffer, 99999, 0);
+  if(recvMsg < 0){
+      cerr<< "bad recv()" << endl;
+      return -1;
+    }
+    else if(recvMsg == 0){
+      cerr << "client disconnected" << endl;
+    }
+    else{
+
+    cerr << buffer << endl;
+    }
+
+    close(client_sock);
+
 }
