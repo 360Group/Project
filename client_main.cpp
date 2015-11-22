@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
     };
     client->SetBoard((char **)board);
     client->BeginGame();
-    //client->DrawToScreen();
+    client->DrawToScreen();
     endwin();
     ClientNetwork *network = new ClientNetwork(client, address, port);
     network->SendMove(2000);
