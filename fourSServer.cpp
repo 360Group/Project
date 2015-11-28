@@ -10,8 +10,11 @@ command line argument: ./serv [port]*/
 #include <stdlib.h>
 #include <cstring>
 #include <unistd.h>
+#include <pthread.h>
 
 using namespace std;
+
+void* HandleClient(int client_sock);
 
 int main(int argc, char* argv[]){
 	int port;
@@ -39,27 +42,48 @@ int main(int argc, char* argv[]){
 
 	struct sockaddr_in peer;
 
-	if((client_sock = accept(sock, (struct sockaddr*) &peer, &length)) < 0){
-    cerr<< "bad accept()" << endl;
-    return -1;
-  }
+  int param, retVal; //param and return values for thread
 
-  char buffer[99999];
-  int recvMsg;
-  memset(buffer, 0, 99999);
-  recvMsg = recv(client_sock, buffer, 99999, 0);
-  if(recvMsg < 0){
-      cerr<< "bad recv()" << endl;
+  for(;;){
+
+    pthread_t thread;
+    //int param, retVal;
+
+	  if((client_sock = accept(sock, (struct sockaddr*) &peer, &length)) < 0){
+      cerr<< "bad accept()" << endl;
       return -1;
     }
-    else if(recvMsg == 0){
-      cerr << "client disconnected" << endl;
-    }
-    else{
 
+    /*error here passing the socket*/
+    pthread_create(&thread, NULL, HandleClient, (void *)&client_sock);
+
+    ///blerererererere
+    //
+
+    pthread_join(thread, &retVal);
+
+  }
+
+  close(client_sock);
+
+}
+
+void *HandleClient(void *client_sock){
+  char buffer[99999];
+  int recvMsg;
+  int csock;
+  csock = (int)client_sock; 
+
+  memset(buffer, 0, 99999);
+  recvMsg = recv(csock, buffer, 99999, 0);
+  if(recvMsg < 0){
+    cerr<< "bad recv()" << endl;
+    //return -1;
+  }
+  else if(recvMsg == 0){
+    cerr << "client disconnected" << endl;
+  }
+  else{
     cerr << buffer << endl;
-    }
-
-    close(client_sock);
-
+  }
 }

@@ -3,7 +3,7 @@
 #include "gameData.h"
 
 //Constructer used to make a new game
-gameData(int id){
+GameData::GameData(int id){
   for(int i = 0; i < 6; i++){
     for(int j = 0; j < 7; j++){
       board[i][j] = 'B';
@@ -12,7 +12,7 @@ gameData(int id){
 }
 
 //Return the array of data
-char[][] getArray(){
+char[][] GameData::getArray(){
   return board;
 }
 
@@ -22,7 +22,7 @@ char[][] getArray(){
  * 0- move successful
  * 1- column is full and no more peices can be added
  * */
-int addPiece(int column, char playerP){
+int GameData::addPiece(int column, char playerP){
   for(int i = 5; i >= 0; i--){
     if(board[i][column] == 'B'){
       board[i][column] = playerP;
@@ -33,7 +33,7 @@ int addPiece(int column, char playerP){
 } 
 
 /*return a string version of the array of the board*/
-string toString(){
+string GameData::toString(){
   string out;
   for(int i = 0; i < 6; i++){
     for(int j = 0; j < 7; j++){
