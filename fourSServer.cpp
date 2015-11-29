@@ -14,7 +14,7 @@ command line argument: ./serv [port]*/
 
 using namespace std;
 
-void* HandleClient(int client_sock);
+void* HandleClient(void *client_sock);
 
 int main(int argc, char* argv[]){
 	int port;
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
     ///blerererererere
     //
 
-    pthread_join(thread, &retVal);
+    pthread_join(thread, (void **)&retVal);
 
   }
 
@@ -68,11 +68,11 @@ int main(int argc, char* argv[]){
 
 }
 
-void *HandleClient(void *client_sock){
+void* HandleClient(void *client_sock){
+  //things to print out message recieved, for testing
   char buffer[99999];
   int recvMsg;
-  int csock;
-  csock = (int)client_sock; 
+  long csock = (long)client_sock;
 
   memset(buffer, 0, 99999);
   recvMsg = recv(csock, buffer, 99999, 0);
@@ -86,4 +86,26 @@ void *HandleClient(void *client_sock){
   else{
     cerr << buffer << endl;
   }
+  //-------------------------------------------------
+
+  /*actual code(potential)*/
+
+  //recv initial message from client asking to join???
+
+  //give client a new game
+  
+  //loop
+    //send game data to client
+
+    //wait for client move
+      //make move and respond if error
+      //check for win
+
+    //AI response
+      //make move 
+      //check for win
+
+  //end loop
+  
+  /*end actual code*/
 }
