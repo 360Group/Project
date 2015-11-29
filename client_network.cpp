@@ -4,8 +4,7 @@
 
 int SetupTCPClientSocket(const char *host, const char *service);
 
-ClientNetwork::ClientNetwork(Client *client, string address, string port) {
-    this->client = client;
+ClientNetwork::ClientNetwork(string address, string port) {
     this->sockID = SetupTCPClientSocket(address.c_str(), port.c_str());
     if(this->sockID < 0) {
         cerr << "Error connecting to server" << endl;
@@ -20,6 +19,10 @@ void ClientNetwork::Close() {
 
 void ClientNetwork::SendMove(int col) {
     send(this->sockID, &col, sizeof(int), 0);
+}
+
+void ClientNetwork::SetClient(Client *client) {
+    this->client = client;
 }
 
 void *ClientNetwork::RecvHandler(void *arg) {

@@ -16,7 +16,8 @@ using namespace std;
 
 class ClientNetwork {
     public:
-        ClientNetwork(Client *client, string address, string port);
+        ClientNetwork(string address, string port);
+        void SetClient(Client *client);
         void Close();
         void SendMove(int col);
 
