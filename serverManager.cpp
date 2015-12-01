@@ -40,3 +40,6 @@ int ServerManager::makeNewGame(string p){
   return game;
 }
 
+/*int ServerManager::quitGame(int id){
+  
+}*/

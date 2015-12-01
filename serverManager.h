@@ -11,5 +11,5 @@ class ServerManager{
     string listGames();
     int joinGame(int gameID, string player);
     int makeNewGame(sting p);
-    int quitGame();
-}
+    //int quitGame(int id);
+};

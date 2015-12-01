@@ -18,5 +18,5 @@ class GameData{
     string toString();
     string getPlayer(){return player1;}
     addPlayer(string name){player1 = name;}
-}
+};
 

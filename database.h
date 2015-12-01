@@ -15,6 +15,7 @@ class Database{
     string makeMove(string move);
     GameData getGame(int id);
     int newGame();
+    removeGame(int id);
     int getListSize();
     const vector<GameData> getGameList(){return gameList;}
 
