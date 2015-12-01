@@ -27,8 +27,8 @@ ServerManager& ServerManager::getInstance(){
 /*join an existing game and return the game ID if 
  * succeds and if not returns a -1*/
 int ServerManager::joinGame(int gameID, std::string player){
-  if(datab.getGame(gameID).getPlayer().compare("none") == 0){
-    datab.getGame(gameID).addPlayer(player);
+  if(datab.getInstance().getGame(gameID).getPlayer().compare("none") == 0){
+    datab.getInstance().getGame(gameID).addPlayer(player);
     return gameID;
   }
   else{
@@ -39,7 +39,7 @@ int ServerManager::joinGame(int gameID, std::string player){
 /*makes new game and adds player to it
  * returns new games gameID*/
 int ServerManager::makeNewGame(std::string p){
-  int game = datab.newGame();
+  int game = datab.getInstance().newGame();
   joinGame(game, p);
   return game;
 }
@@ -48,4 +48,4 @@ int ServerManager::makeNewGame(std::string p){
   
 }*/
 
-int main(){}
+//int main(){}

@@ -12,6 +12,9 @@ command line argument: ./serv [port]*/
 #include <cstring>
 #include <unistd.h>
 #include <pthread.h>
+#include <sstream>
+
+#include "serverManager.h"
 
 using namespace std;
 
@@ -75,6 +78,14 @@ void* HandleClient(void *client_sock){
   char buffer[99999];
   int recvMsg;
   int csock = *((int *)client_sock);
+  char player = 'C';
+
+  int gameID; //id used to specify the game on the server you are playing
+
+  //server Manager class
+  //ServerManager& myManager;
+  //database class
+  //Database& mydata;
 
   for(;;) {
     memset(buffer, 0, 99999);
@@ -104,11 +115,50 @@ void* HandleClient(void *client_sock){
   //loop
   bool win = false;
   while(!win){
+    //Database& mydata = Database.getInstance();
     //send game data to client
-    
+    stringstream gstate;
+    string garray = Database::getInstance().getGame(gameID).getArray();
+    gstate << "boardState " << garray;
+    string toSend = gstate.str();
+    if(send(csock, toSend.c_str(), toSend.length(), 0) != 0){
+      cout << "error contancting client" << endl;
+    }
 
     //wait for client move
+    bool moved = false;
+    while(!moved){
+      memset(buffer, 0, 99999);
+      recvMsg = recv(csock, buffer, 99999, 0);
+      if(recvMsg < 0){
+        perror("recv");
+        cerr<< "bad recv()" << endl;
+        //return -1;
+      }
+      else if(recvMsg == 0){
+        cerr << "client disconnected" << endl;
+	      return NULL;
+      }
+      else{
+        string str(buffer);
+        cerr << str << endl;
+      }
       //make move and respond if error
+      string fromCl(buffer);
+      int move = Database::getInstance().makeMove(fromCl, player, gameID);
+      if(move == 0){
+        moved = true;
+      }else if(move == 1){
+        string err = "error You cant put that there!!!";
+        if(send(csock, err.c_str(), err.length(), 0) != 0){
+          cout << "error contancting client" << endl;
+        }
+      }else{
+        win = true;
+        break;
+      }
+    }
+
       //check for win
 
     //AI response
@@ -116,6 +166,7 @@ void* HandleClient(void *client_sock){
       //check for win
 
   //end loop
+  }
 
   /*end actual code*/
 }
