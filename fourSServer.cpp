@@ -8,6 +8,7 @@ command line argument: ./serv [port]*/
 #include <arpa/inet.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <cstring>
 #include <unistd.h>
 #include <pthread.h>
@@ -37,7 +38,7 @@ int main(int argc, char* argv[]){
 
 	listen(sock, 256);
 
-	int client_sock;
+	int *client_sock;
   socklen_t length;
 
 	struct sockaddr_in peer;
@@ -48,14 +49,15 @@ int main(int argc, char* argv[]){
 
     pthread_t thread;
     //int param, retVal;
+	client_sock = new int;
 
-	  if((client_sock = accept(sock, (struct sockaddr*) &peer, &length)) < 0){
+	  if((*client_sock = accept(sock, (struct sockaddr*) &peer, &length)) < 0){
       cerr<< "bad accept()" << endl;
       return -1;
     }
 
     /*error here passing the socket*/
-    pthread_create(&thread, NULL, HandleClient, (void *)&client_sock);
+    pthread_create(&thread, NULL, HandleClient, (void *)client_sock);
 
     ///blerererererere
     //
@@ -64,7 +66,7 @@ int main(int argc, char* argv[]){
 
   }
 
-  close(client_sock);
+  close(*client_sock);
 
 }
 
@@ -72,19 +74,23 @@ void* HandleClient(void *client_sock){
   //things to print out message recieved, for testing
   char buffer[99999];
   int recvMsg;
-  long csock = (long)client_sock;
+  int csock = *((int *)client_sock);
 
-  memset(buffer, 0, 99999);
-  recvMsg = recv(csock, buffer, 99999, 0);
-  if(recvMsg < 0){
-    cerr<< "bad recv()" << endl;
-    //return -1;
-  }
-  else if(recvMsg == 0){
-    cerr << "client disconnected" << endl;
-  }
-  else{
-    cerr << buffer << endl;
+  for(;;) {
+    memset(buffer, 0, 99999);
+    recvMsg = recv(csock, buffer, 99999, 0);
+    if(recvMsg < 0){
+      perror("recv");
+      cerr<< "bad recv()" << endl;
+      //return -1;
+    }
+    else if(recvMsg == 0){
+      cerr << "client disconnected" << endl;
+	  return NULL;
+    }
+    else{
+      cerr << buffer << endl;
+    }
   }
   //-------------------------------------------------
 
@@ -93,7 +99,7 @@ void* HandleClient(void *client_sock){
   //recv initial message from client asking to join???
 
   //give client a new game
-  
+
   //loop
     //send game data to client
 
@@ -102,10 +108,10 @@ void* HandleClient(void *client_sock){
       //check for win
 
     //AI response
-      //make move 
+      //make move
       //check for win
 
   //end loop
-  
+
   /*end actual code*/
 }
