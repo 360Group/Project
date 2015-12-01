@@ -41,21 +41,26 @@ void *RecvHandler(void *arg) {
     int sockID = p.sock;
     Client *client = p.client;
     char buf[BUFF_SIZE];
-    size_t readBytes;
+    int readBytes;
     client->Error("Recieving Thread Active");
 
-    while((readBytes = recv(sockID, buf, BUFF_SIZE - 1, 0))) {
+    while(1) {
+        readBytes = recv(sockID, buf, BUFF_SIZE - 1, 0);
+        if(readBytes <= 0) {
+            break;
+        }
         buf[readBytes] = '\0';
-        char board[6][7] = {
-            {2,1,2,1,2,1,2},
-            {0,1,2,1,2,1,0},
-            {0,0,2,1,2,0,0},
-            {0,0,0,1,0,0,0},
-            {0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0},
-        };
-        client->DrawToScreen(board);
-        //client->Error("Recv: "+ string(buf));
+        string command(buf);
+        // char board[6][7] = {
+        //     {2,1,2,1,2,1,2},
+        //     {0,1,2,1,2,1,0},
+        //     {0,0,2,1,2,0,0},
+        //     {0,0,0,1,0,0,0},
+        //     {0,0,0,0,0,0,0},
+        //     {0,0,0,0,0,0,0},
+        // };
+        // client->DrawToScreen(board);
+        client->Error("Recv: "+ command);
     }
 
     return NULL;
