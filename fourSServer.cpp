@@ -125,6 +125,7 @@ void* HandleClient(void *client_sock){
       cout << "error contancting client" << endl;
     }
 
+
     //wait for client move
     bool moved = false;
     while(!moved){
