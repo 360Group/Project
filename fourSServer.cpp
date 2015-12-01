@@ -105,7 +105,7 @@ void* HandleClient(void *client_sock){
   bool win = false;
   while(!win){
     //send game data to client
-    
+
 
     //wait for client move
       //make move and respond if error
@@ -116,6 +116,7 @@ void* HandleClient(void *client_sock){
       //check for win
 
   //end loop
+  }
 
   /*end actual code*/
 }

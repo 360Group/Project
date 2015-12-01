@@ -88,6 +88,6 @@ void Client::DrawToScreen(char board[6][7]) {
 
 void Client::Error(string errorMsg) {
     attron(COLOR_PAIR(3));
-    mvprintw(19, 3, errorMsg.c_str());
+    mvprintw(19, 3, (errorMsg + "                         ").c_str());
     attroff(COLOR_PAIR(3));
 }
