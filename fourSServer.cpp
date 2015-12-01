@@ -65,7 +65,7 @@ int main(int argc, char* argv[]){
     ///blerererererere
     //
 
-    pthread_join(thread, (void **)&retVal);
+    //pthread_join(thread, (void **)&retVal);
 
   }
 
