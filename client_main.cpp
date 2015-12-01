@@ -31,12 +31,14 @@ int main(int argc, char *argv[]){
         {0,0,0,0,0,0,0},
     };
 
-    client->InitializeScreen();
-    client->DrawToScreen(board);
-    client->BeginGame();
+    // client->InitializeScreen();
+    // client->DrawToScreen(board);
+    // client->BeginGame();
 
-    network->SendMove(2000);
+    network->SendMove(2);
     network->Close();
-    delete client;
-    delete network;
+
+    endwin();
+    //delete client;
+    //delete network;
 }

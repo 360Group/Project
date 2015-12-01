@@ -14,11 +14,18 @@ ClientNetwork::ClientNetwork(string address, string port) {
 }
 
 void ClientNetwork::Close() {
+    this->sendBuff = "quit";
+    cout << "SendBuff: " << this->sendBuff << endl;
+    send(this->sockID, this->sendBuff.c_str(), this->sendBuff.length(), 0);
     close(this->sockID);
 }
 
 void ClientNetwork::SendMove(int col) {
-    send(this->sockID, &col, sizeof(int), 0);
+    stringstream sstm;
+    sstm << "move " << col;
+    this->sendBuff = sstm.str();
+    cout << "SendBuff: " << this->sendBuff << endl;
+    send(this->sockID, this->sendBuff.c_str(), this->sendBuff.length(), 0);
 }
 
 void ClientNetwork::SetClient(Client *client) {

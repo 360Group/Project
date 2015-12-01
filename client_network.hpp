@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <pthread.h>
+#include <sstream>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ class ClientNetwork {
     private:
         Client *client;
         int sockID;
+        string sendBuff;
         pthread_t recvThread;
 
         static void *RecvHandler(void *arg);
