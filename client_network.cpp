@@ -62,16 +62,28 @@ void *RecvHandler(void *arg) {
         }
         buf[readBytes] = '\0';
         string command(buf);
-        // char board[6][7] = {
-        //     {2,1,2,1,2,1,2},
-        //     {0,1,2,1,2,1,0},
-        //     {0,0,2,1,2,0,0},
-        //     {0,0,0,1,0,0,0},
-        //     {0,0,0,0,0,0,0},
-        //     {0,0,0,0,0,0,0},
-        // };
-        // client->DrawToScreen(board);
-        client->Error("Recv: "+ command);
+        if(command == "win") {
+            client->Error("You win!");
+        }
+        else if(command == "lose") {
+            client->Error("You lose!");
+        }
+        else if(command.substr(0,5) == "error") {
+            client->Error("Error! " + command.substr(6));
+        }
+        else if(command.substr(0,10) == "boardState") {
+            char[6][7] board;
+            char *str = command.substr(11).c_str();
+            for(int i = 0; i < 7; i++) {
+                for(int j = 0; j < 6; j++) {
+                    
+                }
+
+            }
+        }
+        else {
+            client->Error("Recv: "+ command);
+        }
     }
 
     return NULL;
