@@ -1,7 +1,8 @@
 /*database.h*/
 
-#include "gamedata.h"
+#include "gameData.h"
 #include <vector>
+#include <string>
 
 class Database{
   private:
@@ -9,15 +10,15 @@ class Database{
     Database(const Database&);
     Database& operator=(const Database&);
     Database();
-    ~Database();
+    ~Database(){};
   public:
     static Database& getInstance();
-    string makeMove(string move);
+    int makeMove(std::string move, char player, int id);
     GameData getGame(int id);
     int newGame();
-    removeGame(int id);
+    void removeGame(int id);
     int getListSize();
-    const vector<GameData> getGameList(){return gameList;}
+    const std::vector<GameData> getGameList(){return gameList;}
 
     
 };

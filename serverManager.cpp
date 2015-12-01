@@ -1,30 +1,34 @@
 /*serverManager.cpp*/
 
-//#include <sstream>
+#include <sstream>
+#include "serverManager.h"
+//#include "database.h"
+//using namespace std;
 
-static ServerManager& ServerManager::getInstance(){
+
+ServerManager& ServerManager::getInstance(){
   static ServerManager instance;
   return instance;
 }
 
-string ServerManager::listGames(){
-  string games;
-  int numGames = Database.getInstance().getListSize();
-  const vector<GameData> list = Database.getInstance().getGameList();
+/*std::string ServerManager::listGames(){
+  std::string games;
+  std::stringstream convert;
+  int numGames = datab.getInstance().getListSize();
+  const std::vector<GameData> list = datab.getInstance().getGameList();
 
   for(int i=0; i < numGames; i++){
-     games += std::to_string(list[i].getID());
-     games += '\n';
+     convert << list[i].getGameID() << std::endl;
   }
-
+  games = convert.str();
   return games;
-}
+}*/
 
 /*join an existing game and return the game ID if 
  * succeds and if not returns a -1*/
-int ServerManager::joinGame(int gameID, string player){
-  if(getGame(gameID).getPlayer().compare("none") == 0){
-    getGame(gameID).addPlayer(player);
+int ServerManager::joinGame(int gameID, std::string player){
+  if(datab.getGame(gameID).getPlayer().compare("none") == 0){
+    datab.getGame(gameID).addPlayer(player);
     return gameID;
   }
   else{
@@ -34,8 +38,8 @@ int ServerManager::joinGame(int gameID, string player){
 
 /*makes new game and adds player to it
  * returns new games gameID*/
-int ServerManager::makeNewGame(string p){
-  int game = Database.newGame();
+int ServerManager::makeNewGame(std::string p){
+  int game = datab.newGame();
   joinGame(game, p);
   return game;
 }
@@ -43,3 +47,5 @@ int ServerManager::makeNewGame(string p){
 /*int ServerManager::quitGame(int id){
   
 }*/
+
+int main(){}

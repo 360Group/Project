@@ -86,10 +86,11 @@ void* HandleClient(void *client_sock){
     }
     else if(recvMsg == 0){
       cerr << "client disconnected" << endl;
-	  return NULL;
+	    return NULL;
     }
     else{
-      cerr << buffer << endl;
+      string str(buffer);
+      cerr << str << endl;
     }
   }
   //-------------------------------------------------
@@ -101,7 +102,10 @@ void* HandleClient(void *client_sock){
   //give client a new game
 
   //loop
+  bool win = false;
+  while(!win){
     //send game data to client
+    
 
     //wait for client move
       //make move and respond if error
