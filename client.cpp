@@ -24,8 +24,9 @@ void Client::InitializeScreen() {
     curs_set(0); //Invisible cursor
     keypad(stdscr, TRUE);
     start_color();
-    init_pair(1, COLOR_GREEN, COLOR_BLACK);
-    init_pair(2, COLOR_RED, COLOR_BLACK);
+    init_pair(1, COLOR_GREEN, COLOR_BLACK); //Player 1 color
+    init_pair(2, COLOR_RED, COLOR_BLACK); //Player 2 color
+    init_pair(3, COLOR_RED, COLOR_BLACK); //Error color
     printw("Use the left and right arrow keys or `j` and `k` to move the column\n");
     printw("Use `Enter` or the down arrow to select a column\n");
     printw("Use `q` to quit");
@@ -55,7 +56,9 @@ void Client::BeginGame() {
             }
         }
         else if(ch == 13 || ch == KEY_DOWN) {
-            this->event(this->currentColSel);
+            if(this->event != NULL) {
+                this->event(this->currentColSel);
+            }
             //mvprintw(START_BOARD,0,"Down   ");
         }
         else if(ch == 'q') {
@@ -81,4 +84,10 @@ void Client::DrawToScreen(char board[6][7]) {
             }
         }
     }
+}
+
+void Client::Error(string errorMsg) {
+    attron(COLOR_PAIR(3));
+    mvprintw(19, 3, errorMsg.c_str());
+    attroff(COLOR_PAIR(3));
 }

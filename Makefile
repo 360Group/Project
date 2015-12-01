@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-Wall -g
 
-SERVER_OBJS = server.o
+SERVER_OBJS = fourSServer.o
 CLIENT_OBJS = client_main.o client.o client_network.o TCPClientUtility.o
 
 %.o: %.cpp

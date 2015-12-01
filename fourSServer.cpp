@@ -76,18 +76,21 @@ void* HandleClient(void *client_sock){
   int recvMsg;
   int csock = *((int *)client_sock);
 
-  memset(buffer, 0, 99999);
-  recvMsg = recv(csock, buffer, 99999, 0);
-  if(recvMsg < 0){
-	perror("recv");
-    cerr<< "bad recv()" << endl;
-    //return -1;
-  }
-  else if(recvMsg == 0){
-    cerr << "client disconnected" << endl;
-  }
-  else{
-    cerr << buffer << endl;
+  for(;;) {
+    memset(buffer, 0, 99999);
+    recvMsg = recv(csock, buffer, 99999, 0);
+    if(recvMsg < 0){
+      perror("recv");
+      cerr<< "bad recv()" << endl;
+      //return -1;
+    }
+    else if(recvMsg == 0){
+      cerr << "client disconnected" << endl;
+	  return NULL;
+    }
+    else{
+      cerr << buffer << endl;
+    }
   }
   //-------------------------------------------------
 
