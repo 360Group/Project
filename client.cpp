@@ -3,6 +3,8 @@
 #define START_BOARD 4
 #define COL_OFF 6
 
+pthread_mutex_t screenLock = PTHREAD_MUTEX_INITIALIZER;
+
 Client::Client() {
     this->currentColSel = 0;
 }
@@ -41,17 +43,23 @@ void Client::InitializeScreen() {
 
 void Client::BeginGame() {
     while (1) {
+        pthread_mutex_lock(&screenLock);
         mvprintw(START_BOARD, 6 + this->currentColSel * 9, "V");
+        pthread_mutex_unlock(&screenLock);
         int ch  = getch();
         if(ch == KEY_LEFT || ch == 'j') {
             if(this->currentColSel > 0) {
+                pthread_mutex_lock(&screenLock);
                 mvprintw(START_BOARD, COL_OFF + this->currentColSel * 9, " ");
+                pthread_mutex_unlock(&screenLock);
                 this->currentColSel--;
             }
         }
         else if(ch == KEY_RIGHT || ch == 'k') {
             if(this->currentColSel < 6) {
+                pthread_mutex_lock(&screenLock);
                 mvprintw(START_BOARD, COL_OFF + this->currentColSel * 9, " ");
+                pthread_mutex_unlock(&screenLock);
                 this->currentColSel++;
             }
         }
@@ -64,11 +72,14 @@ void Client::BeginGame() {
         else if(ch == 'q') {
             break;
         }
+        pthread_mutex_lock(&screenLock);
         refresh();
+        pthread_mutex_unlock(&screenLock);
     }
 }
 
 void Client::DrawToScreen(char board[6][7]) {
+    pthread_mutex_lock(&screenLock);
     for(int i = 0; i < 6; i++) {
         for(int j=0; j < 7; j++) {
             char token = board[i][j];
@@ -84,10 +95,15 @@ void Client::DrawToScreen(char board[6][7]) {
             }
         }
     }
+    refresh();
+    pthread_mutex_unlock(&screenLock);
 }
 
 void Client::Error(string errorMsg) {
+    pthread_mutex_lock(&screenLock);
     attron(COLOR_PAIR(3));
     mvprintw(19, 3, (errorMsg + "                         ").c_str());
     attroff(COLOR_PAIR(3));
+    refresh();
+    pthread_mutex_unlock(&screenLock);
 }
