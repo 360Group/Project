@@ -2,6 +2,8 @@
 #include "client.hpp"
 #include "client_network.hpp"
 
+#define BUFF_SIZE 56
+
 using namespace std;
 
 Client *client;
@@ -34,6 +36,17 @@ int main(int argc, char *argv[]){
     client->DrawToScreen(board);
     client->BeginGame();
 
+    // char board2[6][7] = {
+    //     {2,1,2,1,2,1,2},
+    //     {0,1,2,1,2,1,0},
+    //     {0,0,2,1,2,0,0},
+    //     {0,0,0,1,0,0,0},
+    //     {0,0,0,0,0,0,0},
+    //     {0,0,0,0,0,0,0},
+    // };
+    // client->DrawToScreen(board2);
+    // sleep(1);
+    // while(1) {}
     //Clean up!
     network->Close();
     endwin();
