@@ -35,10 +35,11 @@ int Database::makeMove(std::string move, char player, int id){
       }
     }
   }
-  else if(m.compare("quit") == 0){
+  /*else if(m.compare("quit") == 0){
+    std::cerr << "DATATA!!1" << std::endl;
     removeGame(id);
     return 2;
-  }
+  }*/
 }
 
 

@@ -87,7 +87,7 @@ void* HandleClient(void *client_sock){
   //database class
   //Database& mydata;
 
-  for(;;) {
+  /*for(;;) {
     memset(buffer, 0, 99999);
     recvMsg = recv(csock, buffer, 99999, 0);
     if(recvMsg < 0){
@@ -102,7 +102,7 @@ void* HandleClient(void *client_sock){
     else{
       string str(buffer);
       cerr << str << endl;
-    }
+    }*/
   
   //-------------------------------------------------
 
@@ -127,7 +127,8 @@ void* HandleClient(void *client_sock){
     gstate << "boardState " << garray;
     cerr << "HEY!5" << std::endl;
     string toSend = gstate.str();
-    if(send(csock, toSend.c_str(), toSend.length(), 0) != 0){
+    if(send(csock, toSend.c_str(), toSend.length(), 0) < 0){
+      perror("send");
       cout << "error contancting client" << endl;
     }
 
@@ -152,17 +153,29 @@ void* HandleClient(void *client_sock){
       }
       //make move and respond if error
       string fromCl(buffer);
-      int move = Database::getInstance().makeMove(fromCl, player, gameID);
-      if(move == 0){
+      if (strncmp(fromCl.c_str(), "quit", 4) == 0){
+        cerr << "recieved quit" << endl;
+        Database::getInstance().removeGame(gameID);
+        cerr << "HEY!7" << endl;
         moved = true;
-      }else if(move == 1){
-        string err = "error You cant put that there!!!";
-        if(send(csock, err.c_str(), err.length(), 0) != 0){
-          cout << "error contancting client" << endl;
-        }
-      }else{
         win = true;
-        break;
+	return NULL;
+      }
+      else{
+        int move = Database::getInstance().makeMove(fromCl, player, gameID);
+        if(move == 0){
+          moved = true;
+        }else if(move == 1){
+          string err = "error You cant put that there!!!";
+          if(send(csock, err.c_str(), err.length(), 0) != 0){
+            cout << "error contancting client" << endl;
+          }
+        }else{
+          cerr << "HEY!8" << endl;
+          //Database::getInstance().removeGame(gameID);
+          win = true;
+          break;
+        }
       }
     }
 
@@ -174,7 +187,7 @@ void* HandleClient(void *client_sock){
 
   //end loop
   }
-  }
+  //}
 
   /*end actual code*/
 }
