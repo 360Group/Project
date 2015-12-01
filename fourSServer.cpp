@@ -103,7 +103,7 @@ void* HandleClient(void *client_sock){
       string str(buffer);
       cerr << str << endl;
     }
-  }
+  
   //-------------------------------------------------
 
   /*actual code(potential)*/
@@ -111,21 +111,27 @@ void* HandleClient(void *client_sock){
   //recv initial message from client asking to join???
 
   //give client a new game
-
+  gameID = ServerManager::getInstance().makeNewGame("client");
+  cerr << "HEY!1" << std::endl;
   //loop
   bool win = false;
   while(!win){
+    cerr << "HEY!2" << std::endl;
     //Database& mydata = Database.getInstance();
     //send game data to client
     stringstream gstate;
+    cerr << "HEY!3" << std::endl;
+    //cerr << Database::getInstance().getGame(gameID).getArray() << endl;
     string garray = Database::getInstance().getGame(gameID).getArray();
+    cerr << "HEY!4" << std::endl;
     gstate << "boardState " << garray;
+    cerr << "HEY!5" << std::endl;
     string toSend = gstate.str();
     if(send(csock, toSend.c_str(), toSend.length(), 0) != 0){
       cout << "error contancting client" << endl;
     }
 
-
+    cerr << "HEY!6" << std::endl;
     //wait for client move
     bool moved = false;
     while(!moved){
@@ -167,6 +173,7 @@ void* HandleClient(void *client_sock){
       //check for win
 
   //end loop
+  }
   }
 
   /*end actual code*/

@@ -63,10 +63,15 @@ void Database::removeGame(int id){
 }
 
 GameData Database::getGame(int id){
-  
-  for(int i=0;i < gameList.size(); i++){
-    if(gameList[i].getGameID() == id)
+  std::cerr << "SHIT1" << std::endl; 
+  int mysize = gameList.size();
+  std::cerr << mysize << std::endl;
+  for(int i=0; i < gameList.size(); i++){
+    std::cerr << "SHIT2" << std::endl;
+    if(gameList[i].getGameID() == id){
+      std::cerr << "SHIT3" << std::endl;
       return gameList[i];
+    }
   }
 }
 
