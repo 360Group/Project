@@ -3,7 +3,7 @@
 #include "gameData.h"
 
 //Constructer used to make a new game
-GameData::GameData(int id){
+GameData::GameData(int id): gameID(id), player1("none"){
   for(int i = 0; i < 6; i++){
     for(int j = 0; j < 7; j++){
       board[i][j] = 'B';

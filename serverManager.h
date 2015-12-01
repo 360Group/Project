@@ -9,7 +9,7 @@ class ServerManager{
   public:
     static ServerManager& getInstance();
     string listGames();
-    int joinGame();
-    int startGame();
+    int joinGame(int gameID, string player);
+    int makeNewGame(sting p);
     int quitGame();
 }

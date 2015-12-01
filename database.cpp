@@ -25,3 +25,7 @@ GameData Database::getGame(int id){
       return gameList[i];
   }
 }
+
+int Database::getListSize(){
+  return gameList.size();
+}

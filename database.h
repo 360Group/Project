@@ -13,8 +13,10 @@ class Database{
   public:
     static Database& getInstance();
     string makeMove(string move);
-    GameData getGame(int id)
+    GameData getGame(int id);
     int newGame();
+    int getListSize();
+    const vector<GameData> getGameList(){return gameList;}
 
     
 };
