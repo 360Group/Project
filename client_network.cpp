@@ -13,12 +13,18 @@ struct Pass{
 ClientNetwork::ClientNetwork(Client *client, string address, string port) {
     this->client = client;
     this->sockID = SetupTCPClientSocket(address.c_str(), port.c_str());
+    stringstream sstm;
+    sstm << "Socket: " << this->sockID;
+    this->client->Error(sstm.str());
+    sleep(1);
     if(this->sockID < 0) {
         this->client->Error("Error connecting to server: " + string(strerror(errno)));
         return;
     }
-    Pass pass = {client, this->sockID};
-    pthread_create(&this->recvThread, NULL, RecvHandler, (void *)&pass);
+    Pass *pass = new Pass;
+    pass->client = client;
+    pass->sock = this->sockID;
+    pthread_create(&this->recvThread, NULL, RecvHandler, (void *)pass);
 }
 
 void ClientNetwork::Close() {
@@ -40,13 +46,18 @@ void *RecvHandler(void *arg) {
     Pass p = *((Pass* )arg);
     int sockID = p.sock;
     Client *client = p.client;
+    stringstream sstm;
+    sstm << "Receiving thread active: " << sockID;
+
     char buf[BUFF_SIZE];
     int readBytes;
-    client->Error("Recieving Thread Active");
+    client->Error(sstm.str());
 
     while(1) {
         readBytes = recv(sockID, buf, BUFF_SIZE - 1, 0);
         if(readBytes <= 0) {
+            sleep(1);
+            client->Error("Error receiving: " + string(strerror(errno)));
             break;
         }
         buf[readBytes] = '\0';
