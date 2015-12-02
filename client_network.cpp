@@ -46,17 +46,12 @@ void *RecvHandler(void *arg) {
     Pass p = *((Pass* )arg);
     int sockID = p.sock;
     Client *client = p.client;
-    stringstream sstm;
-    sstm << "Receiving thread active: " << sockID;
-
     char buf[BUFF_SIZE];
     int readBytes;
-    client->Error(sstm.str());
 
     while(1) {
         readBytes = recv(sockID, buf, BUFF_SIZE - 1, 0);
         if(readBytes <= 0) {
-            sleep(1);
             client->Error("Error receiving: " + string(strerror(errno)));
             break;
         }
@@ -72,14 +67,24 @@ void *RecvHandler(void *arg) {
             client->Error("Error! " + command.substr(6));
         }
         else if(command.substr(0,10) == "boardState") {
-            char[6][7] board;
-            char *str = command.substr(11).c_str();
-            for(int i = 0; i < 7; i++) {
-                for(int j = 0; j < 6; j++) {
-                    
+            client->Error("                                                  ");
+            char board[6][7];
+            const char *str = command.substr(11).c_str();
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 7; j++) {
+                    char c = *(str + (i * 7) + j);
+                    if (c == 'B') {
+                        board[5-i][j] = 0;
+                    }
+                    else if (c == 'C') {
+                        board[5-i][j] = 1;
+                    }
+                    else if (c == 'S') {
+                        board[5-i][j] = 2;
+                    }
                 }
-
             }
+            client->DrawToScreen(board);
         }
         else {
             client->Error("Recv: "+ command);

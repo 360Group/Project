@@ -33,7 +33,7 @@ int main(int argc, char *argv[]){
         {0,0,0,0,0,0,0},
     };
 
-    client->DrawToScreen(board);
+    // client->DrawToScreen(board);
     client->BeginGame();
 
     // char board2[6][7] = {
