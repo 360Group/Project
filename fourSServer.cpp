@@ -184,10 +184,15 @@ void* HandleClient(void *client_sock){
 	
 	if( !win ){	
 		moved = false;
+		int move = 1;
+		int num;
+		string myCL;
+		stringstream myStream;
 		while( !moved ){
-
-			itoa( (rand() % 7), fromCL, 10 );
-			move = Database::getInstance().makeMove(fromCl, player, gameID);
+			num = (rand() % 7);
+			myStream << num;
+			myCL = myStream.str();
+			move = Database::getInstance().makeMove(myCL, player, gameID);
 			if( move == 0 )
 				moved = true;
 		}
