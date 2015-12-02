@@ -182,6 +182,13 @@ void* HandleClient(void *client_sock){
       //check for win
   cerr << "Calling wincheck" << endl;
 	if((win = Database::getInstance().getGame(gameID).checkWin())){
+	string bsMsg = "boardState " +
+		Database::getInstance().getGame(gameID).getArray();
+	if(send(csock, bsMsg.c_str(), bsMsg.length(), 0) < 0){
+	  perror("send");
+	  cout << "error contancting client" << endl;
+	}
+	for(int sleeper=0; sleeper < 3000000; sleeper++) {}
     string winner = "win";
     if(send(csock, winner.c_str(), winner.length(), 0) < 0){
       cout << "error contancting client" << endl;
@@ -209,6 +216,13 @@ void* HandleClient(void *client_sock){
 		}
     win = Database::getInstance().getGame(gameID).checkWin();
 		if(win){
+		string bsMsg = "boardState " +
+			Database::getInstance().getGame(gameID).getArray();
+		if(send(csock, bsMsg.c_str(), bsMsg.length(), 0) < 0){
+		  perror("send");
+		  cout << "error contancting client" << endl;
+		}
+		for(int sleeper=0; sleeper < 3000000; sleeper++) {}
       string winner = "lose";
       if(send(csock, winner.c_str(), winner.length(), 0) < 0){
         cout << "error contancting client" << endl;
