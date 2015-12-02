@@ -181,9 +181,18 @@ void* HandleClient(void *client_sock){
 
       //check for win
 	win = Database::getInstance().getGame(gameID).checkWin();
-    //AI response
-      //make move
-      //check for win
+	
+	if( !win ){	
+		moved = false;
+		while( !moved ){
+
+			itoa( (rand() % 7), fromCL, 10 );
+			move = Database::getInstance().makeMove(fromCl, player, gameID);
+			if( move == 0 )
+				moved = true;
+		}
+		win = Database::getInstance().getGame(gameID).checkWin();
+	}
 
   //end loop
   }
