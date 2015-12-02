@@ -159,7 +159,7 @@ void* HandleClient(void *client_sock){
         cerr << "HEY!7" << endl;
         moved = true;
         win = true;
-	return NULL;
+	      return NULL;
       }
       else{
         int move = Database::getInstance().makeMove(fromCl, player, gameID);
