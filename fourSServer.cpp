@@ -167,7 +167,7 @@ void* HandleClient(void *client_sock){
           moved = true;
         }else if(move == 1){
           string err = "error You cant put that there!!!";
-          if(send(csock, err.c_str(), err.length(), 0) != 0){
+          if(send(csock, err.c_str(), err.length(), 0) < 0){
             cout << "error contancting client" << endl;
           }
         }else{
@@ -180,10 +180,19 @@ void* HandleClient(void *client_sock){
     }
 
       //check for win
+	win = Database::getInstance().getGame(gameID).checkWin();
+	
+	if( !win ){	
+		moved = false;
+		while( !moved ){
 
-    //AI response
-      //make move
-      //check for win
+			itoa( (rand() % 7), fromCL, 10 );
+			move = Database::getInstance().makeMove(fromCl, player, gameID);
+			if( move == 0 )
+				moved = true;
+		}
+		win = Database::getInstance().getGame(gameID).checkWin();
+	}
 
   //end loop
   }
