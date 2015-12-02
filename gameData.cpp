@@ -1,9 +1,14 @@
 /*gameData.cpp*/
 
 #include "gameData.h"
+#include "winCheck.h"
 
 //Constructer used to make a new game
 GameData::GameData(int id): gameID(id), player1("none"){
+  board = new char*[6];
+  for(int i=0; i < 6; i++){
+    board[i] = new char[7];
+  }
   for(int i = 0; i < 6; i++){
     for(int j = 0; j < 7; j++){
       board[i][j] = 'B';
@@ -37,6 +42,10 @@ int GameData::addPiece(int column, char playerP){
   }
   return 1;
 } 
+
+bool GameData::checkWin(){
+  return winCheck(board);
+}
 
 /*return a string version of the array of the board*/
 /*std::string GameData::toString(){
