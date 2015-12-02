@@ -67,7 +67,6 @@ void Database::removeGame(int id){
 
 GameData Database::getGame(int id){
   int mysize = gameList.size();
-  std::cerr << mysize << std::endl;
   for(int i=0; i < gameList.size(); i++){
     if(gameList[i].getGameID() == id){
       return gameList[i];

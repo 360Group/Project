@@ -82,34 +82,6 @@ void* HandleClient(void *client_sock){
 
   int gameID; //id used to specify the game on the server you are playing
 
-  //server Manager class
-  //ServerManager& myManager;
-  //database class
-  //Database& mydata;
-
-  /*for(;;) {
-    memset(buffer, 0, 99999);
-    recvMsg = recv(csock, buffer, 99999, 0);
-    if(recvMsg < 0){
-      perror("recv");
-      cerr<< "bad recv()" << endl;
-      //return -1;
-    }
-    else if(recvMsg == 0){
-      cerr << "client disconnected" << endl;
-	    return NULL;
-    }
-    else{
-      string str(buffer);
-      cerr << str << endl;
-    }*/
-
-  //-------------------------------------------------
-
-  /*actual code(potential)*/
-
-  //recv initial message from client asking to join???
-
   //give client a new game
   gameID = ServerManager::getInstance().makeNewGame("client");
   //loop
@@ -140,7 +112,7 @@ void* HandleClient(void *client_sock){
       }
       else{
         string str(buffer);
-        cerr << str << endl;
+        //cerr << str << endl;
       }
       //make move and respond if error
       string fromCl(buffer);
@@ -169,7 +141,6 @@ void* HandleClient(void *client_sock){
     }
 
       //check for win
-  cerr << "Calling wincheck" << endl;
 	if((win = Database::getInstance().getGame(gameID).checkWin())){
 	string bsMsg = "boardState " +
 		Database::getInstance().getGame(gameID).getArray();
@@ -183,7 +154,6 @@ void* HandleClient(void *client_sock){
       cout << "error contancting client" << endl;
     }
   }
-  cerr << "after wincheck" << endl;
 
 		// If client didn't win ai makes a move
 	if( !win ){
@@ -219,12 +189,6 @@ void* HandleClient(void *client_sock){
 
   //end loop
   }
-  //}
-  /*string winner = "win";
-  if(send(csock, winner.c_str(), winner.length(), 0) < 0){
-    cout << "error contancting client" << endl;
-  }*/
-
   return NULL;
   /*end actual code*/
 }
