@@ -2,7 +2,6 @@
 // Connect 4 win check function
 
 #include <cstdlib>
-#include <iostream>
 
 #define COLMAX 7
 #define ROWMAX 6
@@ -77,17 +76,6 @@ bool checkLeftDiagonal( char** &board, int i, int j){
 bool winCheck( char** &board ){
 
 	int i, j;
-	
-	// Print board state
-	std::cout << std::endl << "Current Board State\n";
-	std::cout << "1 2 3 4 5 6 7\n";
-	for( i = 0; i<ROWMAX; i++){
-		for( j = 0; j<COLMAX; j++){
-		
-			std::cout << board[i][j] << " ";
-		}
-	std::cout << std::endl;
-	}
 
 	for( i=ROWMAX-1; i>=0; i--){
 		for( j=0; j<COLMAX; j++){
