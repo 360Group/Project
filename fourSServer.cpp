@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 
 	struct sockaddr_in peer;
 
-  int param, retVal; //param and return values for thread
+  //int param, retVal; //param and return values for thread
 
   for(;;){
 
@@ -112,27 +112,18 @@ void* HandleClient(void *client_sock){
 
   //give client a new game
   gameID = ServerManager::getInstance().makeNewGame("client");
-  cerr << "HEY!1" << std::endl;
   //loop
   bool win = false;
   while(!win){
-    cerr << "HEY!2" << std::endl;
     //Database& mydata = Database.getInstance();
     //send game data to client
-    stringstream gstate;
-    cerr << "HEY!3" << std::endl;
     //cerr << Database::getInstance().getGame(gameID).getArray() << endl;
-    string garray = Database::getInstance().getGame(gameID).getArray();
-    cerr << "HEY!4" << std::endl;
-    gstate << "boardState " << garray;
-    cerr << "HEY!5" << std::endl;
-    string toSend = gstate.str();
+    string toSend = "boardState " + Database::getInstance().getGame(gameID).getArray();;
     if(send(csock, toSend.c_str(), toSend.length(), 0) < 0){
       perror("send");
       cout << "error contancting client" << endl;
     }
 
-    cerr << "HEY!6" << std::endl;
     //wait for client move
     bool moved = false;
     while(!moved){
@@ -156,7 +147,6 @@ void* HandleClient(void *client_sock){
       if (strncmp(fromCl.c_str(), "quit", 4) == 0){
         cerr << "recieved quit" << endl;
         Database::getInstance().removeGame(gameID);
-        cerr << "HEY!7" << endl;
         moved = true;
         win = true;
 	      return NULL;
@@ -171,7 +161,6 @@ void* HandleClient(void *client_sock){
             cout << "error contancting client" << endl;
           }
         }else{
-          cerr << "HEY!8" << endl;
           //Database::getInstance().removeGame(gameID);
           win = true;
           break;
@@ -203,14 +192,11 @@ void* HandleClient(void *client_sock){
 		int num;
 		string myCL;
 		stringstream myStream;
-    cerr << "AI1" << endl;
 		while( !moved ){
 			num = (rand() % 7);
 			myStream << "move " << num;
 			myCL = myStream.str();
-      cerr << "AI2" << endl;
 			move = Database::getInstance().makeMove(myCL, 'S', gameID);
-      cerr << "AI3" << endl;
 			if( move == 0 )
 				moved = true;
 		}

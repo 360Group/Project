@@ -26,19 +26,17 @@ int Database::makeMove(std::string move, char player, int id){
       for(int i=0;i < gameList.size(); i++){
         if(gameList[i].getGameID() == id){
           //gameList[i].;
-          std::cerr << "data!!1" << std::endl;  
           if(gameList[i].addPiece(col, player) == 0){
-            std::cerr << "data!!2" << std::endl;
             return 0;
           }
           else{
-            std::cerr << "data!!3" << std::endl;
             return 1;
           }
         }
       }
     }
   }
+  return -1;
   /*else if(m.compare("quit") == 0){
     std::cerr << "DATATA!!1" << std::endl;
     removeGame(id);
@@ -68,13 +66,10 @@ void Database::removeGame(int id){
 }
 
 GameData Database::getGame(int id){
-  std::cerr << "SHIT1" << std::endl; 
   int mysize = gameList.size();
   std::cerr << mysize << std::endl;
   for(int i=0; i < gameList.size(); i++){
-    std::cerr << "SHIT2" << std::endl;
     if(gameList[i].getGameID() == id){
-      std::cerr << "SHIT3" << std::endl;
       return gameList[i];
     }
   }
