@@ -75,7 +75,19 @@ bool checkLeftDiagonal( char** &board, int i, int j){
 // Checks the game board for a winner
 bool winCheck( char** &board ){
 
-	int i, j;
+  int i, j;
+  // Print board state
+	std::cout << std::endl << "Current Board State\n";
+	std::cout << "1 2 3 4 5 6 7\n";
+	for( i = 0; i<ROWMAX; i++){
+		for( j = 0; j<COLMAX; j++){
+		
+			std::cout << board[i][j] << " ";
+		}
+	std::cout << std::endl;
+  }
+	//int i, j;
+  std::cerr << "WIN1" << std::endl;
 
 	for( i=ROWMAX-1; i>=0; i--){
 		for( j=0; j<COLMAX; j++){
@@ -89,10 +101,13 @@ bool winCheck( char** &board ){
 			if( checkRightDiagonal( board, i, j ) ){
 				return true;
 			}
+      std::cerr << "WIN2" << std::endl;
 			if( checkRightDiagonal( board, i, j ) ){
 				return true;
 			}
+      std::cerr << "WIN2.1" << std::endl;
 		}
 	}
+std::cerr << "WIN3" << std::endl;
 return false;
 }

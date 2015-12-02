@@ -180,6 +180,7 @@ void* HandleClient(void *client_sock){
     }
 	
       //check for win
+  cerr << "Calling wincheck" << endl;
 	win = Database::getInstance().getGame(gameID).checkWin();
 	
 		// If client didn't win ai makes a move
