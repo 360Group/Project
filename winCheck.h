@@ -2,7 +2,6 @@
 // Connect 4 win check function
 
 #include <cstdlib>
-#include <iostream>
 
 #define COLMAX 7
 #define ROWMAX 6

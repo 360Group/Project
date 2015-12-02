@@ -183,7 +183,7 @@ void* HandleClient(void *client_sock){
 	win = Database::getInstance().getGame(gameID).checkWin();
 	
 		// If client didn't win ai makes a move
-/*	if( !win ){	
+	if( !win ){	
 		moved = false;
 		int move = 1;
 		int num;
@@ -198,7 +198,7 @@ void* HandleClient(void *client_sock){
 				moved = true;
 		}
 		win = Database::getInstance().getGame(gameID).checkWin();
-	}	*/
+	}
 	
 
   //end loop
