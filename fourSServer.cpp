@@ -181,7 +181,13 @@ void* HandleClient(void *client_sock){
 	
       //check for win
   cerr << "Calling wincheck" << endl;
-	win = Database::getInstance().getGame(gameID).checkWin();
+	if((win = Database::getInstance().getGame(gameID).checkWin())){
+    string winner = "win";
+    if(send(csock, winner.c_str(), winner.length(), 0) < 0){
+      cout << "error contancting client" << endl;
+    }
+  }
+  cerr << "after wincheck" << endl;
 	
 		// If client didn't win ai makes a move
 	if( !win ){	
@@ -190,21 +196,35 @@ void* HandleClient(void *client_sock){
 		int num;
 		string myCL;
 		stringstream myStream;
+    cerr << "AI1" << endl;
 		while( !moved ){
 			num = (rand() % 7);
-			myStream << num;
+			myStream << "move " << num;
 			myCL = myStream.str();
-			move = Database::getInstance().makeMove(myCL, player, gameID);
+      cerr << "AI2" << endl;
+			move = Database::getInstance().makeMove(myCL, 'S', gameID);
+      cerr << "AI3" << endl;
 			if( move == 0 )
 				moved = true;
 		}
-		win = Database::getInstance().getGame(gameID).checkWin();
+    win = Database::getInstance().getGame(gameID).checkWin();
+		if(win){
+      string winner = "loose";
+      if(send(csock, winner.c_str(), winner.length(), 0) < 0){
+        cout << "error contancting client" << endl;
+    }
+    }
 	}
 	
 
   //end loop
   }
   //}
+  /*string winner = "win";
+  if(send(csock, winner.c_str(), winner.length(), 0) < 0){
+    cout << "error contancting client" << endl;
+  }*/
 
+  return NULL;
   /*end actual code*/
 }

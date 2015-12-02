@@ -26,11 +26,15 @@ int Database::makeMove(std::string move, char player, int id){
       for(int i=0;i < gameList.size(); i++){
         if(gameList[i].getGameID() == id){
           //gameList[i].;
-      
-          if(gameList[i].addPiece(col, player) == 0)
+          std::cerr << "data!!1" << std::endl;  
+          if(gameList[i].addPiece(col, player) == 0){
+            std::cerr << "data!!2" << std::endl;
             return 0;
-          else
+          }
+          else{
+            std::cerr << "data!!3" << std::endl;
             return 1;
+          }
         }
       }
     }

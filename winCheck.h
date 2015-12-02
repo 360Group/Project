@@ -30,8 +30,10 @@ bool checkVeritcalNeighbors( char** &board, int i, int j){
 		return false;
 	}
 	else{
+    std::cerr << "VERT1" << std::endl;
 		if( (board[i][j] == board[i-1][j]) && (board[i][j] == board[i-2][j])
 		&& (board[i][j] == board[i-3][j]) && (board[i][j] != 'B') ){
+      std::cerr << "VERT2" << std::endl;
 			return true;
 		} 
 		return false;
@@ -91,21 +93,24 @@ bool winCheck( char** &board ){
 
 	for( i=ROWMAX-1; i>=0; i--){
 		for( j=0; j<COLMAX; j++){
-		
+		  std::cerr << "WIN2.1" << std::endl;
 			if( checkHorizontalNeighbors( board, i, j ) ){
 				return true;
 			}
-			if( checkVeritcalNeighbors( board, i, j) ){ 
+      std::cerr << "WIN2.2" << std::endl;
+			if( checkVeritcalNeighbors( board, i, j) ){
+        std::cerr << "WINVERT1" << std::endl;
 				return true;
 			}
+      std::cerr << "WIN2.3" << std::endl;
 			if( checkRightDiagonal( board, i, j ) ){
 				return true;
 			}
-      std::cerr << "WIN2" << std::endl;
+      std::cerr << "WIN2.4" << std::endl;
 			if( checkRightDiagonal( board, i, j ) ){
 				return true;
 			}
-      std::cerr << "WIN2.1" << std::endl;
+      std::cerr << "WIN2.5" << std::endl;
 		}
 	}
 std::cerr << "WIN3" << std::endl;
