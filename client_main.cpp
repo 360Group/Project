@@ -19,34 +19,12 @@ int main(int argc, char *argv[]){
     string port = argv[2];
     client = new Client();
     client->InitializeScreen();
+    client->SetMoveEvent(MoveEvent);
 
     network = new ClientNetwork(client, address, port);
 
-    client->SetMoveEvent(MoveEvent);
-
-    char board[6][7] = {
-        {1,2,1,2,1,2,1},
-        {0,2,1,2,1,2,0},
-        {0,0,1,2,1,0,0},
-        {0,0,0,2,0,0,0},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0},
-    };
-
-    // client->DrawToScreen(board);
     client->BeginGame();
 
-    // char board2[6][7] = {
-    //     {2,1,2,1,2,1,2},
-    //     {0,1,2,1,2,1,0},
-    //     {0,0,2,1,2,0,0},
-    //     {0,0,0,1,0,0,0},
-    //     {0,0,0,0,0,0,0},
-    //     {0,0,0,0,0,0,0},
-    // };
-    // client->DrawToScreen(board2);
-    // sleep(1);
-    // while(1) {}
     //Clean up!
     network->Close();
     endwin();

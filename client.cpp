@@ -14,7 +14,9 @@ Client::~Client() {
 }
 
 void Client::SetMoveEvent(void (*event)(int)) {
-    this->event = event;
+    if(this->canMove) {
+        this->event = event;
+    }
 }
 
 void Client::InitializeScreen() {
@@ -48,7 +50,7 @@ void Client::BeginGame() {
         pthread_mutex_unlock(&screenLock);
         int ch  = getch();
         if(ch == KEY_LEFT || ch == 'j') {
-            if(this->currentColSel > 0) {
+            if(this->currentColSel > 0 && this->canMove) {
                 pthread_mutex_lock(&screenLock);
                 mvprintw(START_BOARD, COL_OFF + this->currentColSel * 9, " ");
                 pthread_mutex_unlock(&screenLock);
@@ -56,7 +58,7 @@ void Client::BeginGame() {
             }
         }
         else if(ch == KEY_RIGHT || ch == 'k') {
-            if(this->currentColSel < 6) {
+            if(this->currentColSel < 6 && this->canMove) {
                 pthread_mutex_lock(&screenLock);
                 mvprintw(START_BOARD, COL_OFF + this->currentColSel * 9, " ");
                 pthread_mutex_unlock(&screenLock);
@@ -64,7 +66,7 @@ void Client::BeginGame() {
             }
         }
         else if(ch == 13 || ch == KEY_DOWN) {
-            if(this->event != NULL) {
+            if(this->event != NULL && this->canMove) {
                 this->event(this->currentColSel);
             }
             //mvprintw(START_BOARD,0,"Down   ");
@@ -106,4 +108,8 @@ void Client::Error(string errorMsg) {
     attroff(COLOR_PAIR(3));
     refresh();
     pthread_mutex_unlock(&screenLock);
+}
+
+void Client::LockMovement() {
+    this->canMove = false;
 }

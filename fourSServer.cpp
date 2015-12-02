@@ -82,6 +82,30 @@ void* HandleClient(void *client_sock){
 
   int gameID; //id used to specify the game on the server you are playing
 
+  //server Manager class
+  //ServerManager& myManager;
+  //database class
+  //Database& mydata;
+
+  /*for(;;) {
+    memset(buffer, 0, 99999);
+    recvMsg = recv(csock, buffer, 99999, 0);
+    if(recvMsg < 0){
+      perror("recv");
+      cerr<< "bad recv()" << endl;
+      //return -1;
+    }
+    else if(recvMsg == 0){
+      cerr << "client disconnected" << endl;
+	    return NULL;
+    }
+    else{
+      string str(buffer);
+      cerr << str << endl;
+    }*/
+
+  //-------------------------------------------------
+
   /*actual code(potential)*/
 
   //recv initial message from client asking to join???
@@ -154,7 +178,7 @@ void* HandleClient(void *client_sock){
         }
       }
     }
-	
+
       //check for win
   cerr << "Calling wincheck" << endl;
 	if((win = Database::getInstance().getGame(gameID).checkWin())){
@@ -162,23 +186,11 @@ void* HandleClient(void *client_sock){
     if(send(csock, winner.c_str(), winner.length(), 0) < 0){
       cout << "error contancting client" << endl;
     }
-    stringstream gstate;
-    string garray = Database::getInstance().getGame(gameID).getArray();
-    gstate << "boardState " << garray;
-    string toSend = gstate.str();
-    if(send(csock, toSend.c_str(), toSend.length(), 0) < 0){
-      perror("send");
-      cout << "error contancting client" << endl;
-    }
-    /*string winner = "win";
-    if(send(csock, winner.c_str(), winner.length(), 0) < 0){
-      cout << "error contancting client" << endl;
-    }*/
   }
   cerr << "after wincheck" << endl;
-	
+
 		// If client didn't win ai makes a move
-	if( !win ){	
+	if( !win ){
 		moved = false;
 		int move = 1;
 		int num;
@@ -197,23 +209,13 @@ void* HandleClient(void *client_sock){
 		}
     win = Database::getInstance().getGame(gameID).checkWin();
 		if(win){
-      string winner = "loose";
+      string winner = "lose";
       if(send(csock, winner.c_str(), winner.length(), 0) < 0){
         cout << "error contancting client" << endl;
-      }
-      stringstream gstate;
-      string garray = Database::getInstance().getGame(gameID).getArray();
-      gstate << "boardState " << garray;
-      string toSend = gstate.str();
-      if(send(csock, toSend.c_str(), toSend.length(), 0) < 0){
-        perror("send");
-        cout << "error contancting client" << endl;
-      }
-
-
+    }
     }
 	}
-	
+
 
   //end loop
   }

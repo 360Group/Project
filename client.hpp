@@ -16,9 +16,11 @@ public:
     void Error(string errorMsg);
     void InitializeScreen();
     void SetMoveEvent(void (*event)(int));
+    void LockMovement();
 
 private:
     char currentColSel;
     void (*event)(int);
+    bool canMove = true;
 };
 #endif

@@ -13,10 +13,7 @@ struct Pass{
 ClientNetwork::ClientNetwork(Client *client, string address, string port) {
     this->client = client;
     this->sockID = SetupTCPClientSocket(address.c_str(), port.c_str());
-    stringstream sstm;
-    sstm << "Socket: " << this->sockID;
-    this->client->Error(sstm.str());
-    sleep(1);
+
     if(this->sockID < 0) {
         this->client->Error("Error connecting to server: " + string(strerror(errno)));
         return;
@@ -58,10 +55,12 @@ void *RecvHandler(void *arg) {
         buf[readBytes] = '\0';
         string command(buf);
         if(command == "win") {
-            client->Error("You win!");
+            client->Error("You win! Hit `q` to quit!");
+            client->LockMovement();
         }
         else if(command == "lose") {
-            client->Error("You lose!");
+            client->Error("You lose! Hit `q` to quit!");
+            client->LockMovement();
         }
         else if(command.substr(0,5) == "error") {
             client->Error("Error! " + command.substr(6));
