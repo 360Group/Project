@@ -7,6 +7,7 @@ pthread_mutex_t screenLock = PTHREAD_MUTEX_INITIALIZER;
 
 Client::Client() {
     this->currentColSel = 0;
+    this->canMove = true;
 }
 
 Client::~Client() {

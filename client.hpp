@@ -21,6 +21,6 @@ public:
 private:
     char currentColSel;
     void (*event)(int);
-    bool canMove = true;
+    bool canMove;
 };
 #endif

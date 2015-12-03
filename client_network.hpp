@@ -21,14 +21,11 @@ class ClientNetwork {
         void Close();
         void SendMove(int col);
 
-        int sockID;
-
     private:
         Client *client;
-        // int sockID;
+        int sockID;
         string sendBuff;
         pthread_t recvThread;
 
-        //static void *RecvHandler(void *arg);
 };
 #endif

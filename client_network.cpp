@@ -1,6 +1,6 @@
 #include "client_network.hpp"
 
-#define BUFF_SIZE 56
+#define BUFF_SIZE 57
 
 int SetupTCPClientSocket(const char *host, const char *service);
 void *RecvHandler(void *arg);
@@ -64,6 +64,7 @@ void *RecvHandler(void *arg) {
         }
         else if(command.substr(0,5) == "error") {
             client->Error("Error! " + command.substr(6));
+            client->LockMovement();
         }
         else if(command.substr(0,10) == "boardState") {
             client->Error("                                                  ");
