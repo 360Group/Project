@@ -22,7 +22,7 @@ void* HandleClient(void *client_sock);
 
 int main(int argc, char* argv[]){
 	int port;
-	port = atoi(argv[1]);
+	port = 5000;//atoi(argv[1]);
 
 	//setting up socket
 	int sock;

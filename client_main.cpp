@@ -16,7 +16,7 @@ void MoveEvent(int col) {
 int main(int argc, char *argv[]){
 
     string address = argv[1];
-    string port = argv[2];
+    string port = "5000";//argv[2];
     client = new Client();
     client->InitializeScreen();
     client->SetMoveEvent(MoveEvent);
